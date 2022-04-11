@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Gif, ISearchGifsResponse } from '../interface/gifs.interface';
 
@@ -15,6 +15,7 @@ export class GifsService {
 
   constructor( private _http : HttpClient ) {
     this._historial = JSON.parse( localStorage.getItem('historial')! ) || [] ;
+    this.resultado = JSON.parse(localStorage.getItem('resultados')!) || [];
   }
 
   get historial() : string[] {
@@ -37,6 +38,7 @@ export class GifsService {
               console.log(resp.data);
               this.resultado = resp.data;
               console.log(this.resultado);
+              this.saveHistoryLocalStorage('resultados',JSON.stringify( this.resultado ) );
 
       });
   }
